@@ -120,7 +120,7 @@ class Trainer(DefaultTrainer):
                     embedder = cls.extract_embedder_from_model(model)
                     evaluator = cls.build_evaluator(cfg, dataset_name, embedder=embedder)
                 except NotImplementedError:
-                    logger.warn(
+                    logger.warning(
                         "No evaluator found. Use `DefaultTrainer.test(evaluators=)`, "
                         "or implement its `build_evaluator` method."
                     )

@@ -298,7 +298,7 @@ def _evaluate_predictions_on_coco(
 
     densepose_metrics = _get_densepose_metrics(min_threshold)
     if len(coco_results) == 0:  # cocoapi does not handle empty results very well
-        logger.warn("No predictions from the model! Set scores to -1")
+        logger.warning("No predictions from the model! Set scores to -1")
         results_gps = {metric: -1 for metric in densepose_metrics}
         results_gpsm = {metric: -1 for metric in densepose_metrics}
         results_segm = {metric: -1 for metric in densepose_metrics}
