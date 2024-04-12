@@ -27,7 +27,7 @@ class DistModel(BaseModel):
 
     def initialize(self, model='net-lin', net='alex', colorspace='Lab', pnet_rand=False, pnet_tune=False, model_path=None,
             use_gpu=True, printNet=False, spatial=False,
-            is_train=False, lr=.0001, beta1=0.5, version='0.1', gpu_ids=[0]):
+            is_train=False, lr=.0001, beta1=0.5, version='0.1', gpu_ids=None):
         '''
         INPUTS
             model - ['net-lin'] for linearly calibrated network
@@ -49,6 +49,7 @@ class DistModel(BaseModel):
             version - 0.1 for latest, 0.0 was original (with a bug)
             gpu_ids - int array - [0] by default, gpus to use
         '''
+        gpu_ids = [0] if gpu_ids is None else gpu_ids
         BaseModel.initialize(self, use_gpu=use_gpu, gpu_ids=gpu_ids)
 
         self.model = model

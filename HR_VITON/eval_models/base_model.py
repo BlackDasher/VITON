@@ -11,7 +11,8 @@ class BaseModel():
     def name(self):
         return 'BaseModel'
 
-    def initialize(self, use_gpu=True, gpu_ids=[0]):
+    def initialize(self, use_gpu=True, gpu_ids=None):
+        gpu_ids = [0] if gpu_ids is None else gpu_ids
         self.use_gpu = use_gpu
         self.gpu_ids = gpu_ids
 

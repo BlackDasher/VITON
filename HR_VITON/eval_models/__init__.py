@@ -11,7 +11,8 @@ from torch.autograd import Variable
 from eval_models import dist_model
 
 class PerceptualLoss(torch.nn.Module):
-    def __init__(self, model='net-lin', net='alex', colorspace='rgb', spatial=False, use_gpu=True, gpu_ids=[0]): # VGG using our perceptually-learned weights (LPIPS metric)
+    def __init__(self, model='net-lin', net='alex', colorspace='rgb', spatial=False, use_gpu=True, gpu_ids=None): # VGG using our perceptually-learned weights (LPIPS metric)
+        gpu_ids = [0] if gpu_ids is None else gpu_ids
     # def __init__(self, model='net', net='vgg', use_gpu=True): # "default" way of using VGG as a perceptual loss
         super(PerceptualLoss, self).__init__()
         print('Setting up Perceptual loss...')
