@@ -46,7 +46,7 @@ class BaseModel():
         print('Loading network from %s'%save_path)
         network.load_state_dict(torch.load(save_path))
 
-    def update_learning_rate():
+    def update_learning_rate(self):
         pass
 
     def get_image_paths(self):
