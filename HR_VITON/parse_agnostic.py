@@ -4,6 +4,7 @@ import os
 import numpy as np
 from PIL import Image, ImageDraw
 from tqdm import tqdm
+import math
 
 def get_im_parse_agnostic(im_parse, pose_data, w=768, h=1024):
     label_array = np.array(im_parse)
@@ -21,7 +22,7 @@ def get_im_parse_agnostic(im_parse, pose_data, w=768, h=1024):
         mask_arm_draw = ImageDraw.Draw(mask_arm)
         i_prev = pose_ids[0]
         for i in pose_ids[1:]:
-            if (pose_data[i_prev, 0] == 0.0 and pose_data[i_prev, 1] == 0.0) or (pose_data[i, 0] == 0.0 and pose_data[i, 1] == 0.0):
+            if (math.isclose(pose_data[i_prev, 0], 0.0, rel_tol=1e-09, abs_tol=0.0) and math.isclose(pose_data[i_prev, 1], 0.0, rel_tol=1e-09, abs_tol=0.0)) or (math.isclose(pose_data[i, 0], 0.0, rel_tol=1e-09, abs_tol=0.0) and math.isclose(pose_data[i, 1], 0.0, rel_tol=1e-09, abs_tol=0.0)):
                 continue
             mask_arm_draw.line([tuple(pose_data[j]) for j in [i_prev, i]], 'white', width=r*10)
             pointx, pointy = pose_data[i]

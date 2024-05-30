@@ -4,6 +4,7 @@ import os
 import numpy as np
 from PIL import Image, ImageDraw
 from tqdm import tqdm
+import math
 
 def get_img_agnostic(img, parse, pose_data):
     parse_array = np.array(parse)
@@ -19,7 +20,7 @@ def get_img_agnostic(img, parse, pose_data):
     length_a = np.linalg.norm(pose_data[9] - pose_data[8])
     r = int(length_a / 4) + 1
     for i in [10, 11, 13, 14]:
-        if (pose_data[i - 1, 0] == 0.0 and pose_data[i - 1, 1] == 0.0) or (pose_data[i, 0] == 0.0 and pose_data[i, 1] == 0.0):
+        if (math.isclose(pose_data[i - 1, 0], 0.0, rel_tol=1e-09, abs_tol=0.0) and math.isclose(pose_data[i - 1, 1], 0.0, rel_tol=1e-09, abs_tol=0.0)) or (math.isclose(pose_data[i, 0], 0.0, rel_tol=1e-09, abs_tol=0.0) and math.isclose(pose_data[i, 1], 0.0, rel_tol=1e-09, abs_tol=0.0)):
             continue
         agnostic_draw.line([tuple(pose_data[j]) for j in [i - 1, i]], 'gray', width=r*10)
     for i in [10, 13]:

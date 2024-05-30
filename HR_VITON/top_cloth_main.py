@@ -19,6 +19,7 @@ import torchvision.transforms as transforms
 from cloth_segmentation.data.base_dataset import Normalize_image
 from cloth_segmentation.utils.saving_utils import load_checkpoint_mgpu
 from cloth_segmentation.networks.u2net import U2NET
+import math
 
 # model
 SHOW_FULLSIZE = False #param {type:"boolean"}
@@ -82,7 +83,7 @@ def get_img_agnostic(img, parse, pose_data):
         pointx, pointy = pose_data[i]
         agnostic_draw.ellipse((pointx-r*5, pointy-r*5, pointx+r*5, pointy+r*5), 'gray', 'gray')
     for i in [3, 4, 6, 7]:
-        if (pose_data[i - 1, 0] == 0.0 and pose_data[i - 1, 1] == 0.0) or (pose_data[i, 0] == 0.0 and pose_data[i, 1] == 0.0):
+        if (math.isclose(pose_data[i - 1, 0], 0.0, rel_tol=1e-09, abs_tol=0.0) and math.isclose(pose_data[i - 1, 1], 0.0, rel_tol=1e-09, abs_tol=0.0)) or (math.isclose(pose_data[i, 0], 0.0, rel_tol=1e-09, abs_tol=0.0) and math.isclose(pose_data[i, 1], 0.0, rel_tol=1e-09, abs_tol=0.0)):
             continue
         agnostic_draw.line([tuple(pose_data[j]) for j in [i - 1, i]], 'gray', width=r*10)
         pointx, pointy = pose_data[i]
@@ -122,7 +123,7 @@ def get_im_parse_agnostic(im_parse, pose_data, w=768, h=1024):
         mask_arm_draw = ImageDraw.Draw(mask_arm)
         i_prev = pose_ids[0]
         for i in pose_ids[1:]:
-            if (pose_data[i_prev, 0] == 0.0 and pose_data[i_prev, 1] == 0.0) or (pose_data[i, 0] == 0.0 and pose_data[i, 1] == 0.0):
+            if (math.isclose(pose_data[i_prev, 0], 0.0, rel_tol=1e-09, abs_tol=0.0) and math.isclose(pose_data[i_prev, 1], 0.0, rel_tol=1e-09, abs_tol=0.0)) or (math.isclose(pose_data[i, 0], 0.0, rel_tol=1e-09, abs_tol=0.0) and math.isclose(pose_data[i, 1], 0.0, rel_tol=1e-09, abs_tol=0.0)):
                 continue
             mask_arm_draw.line([tuple(pose_data[j]) for j in [i_prev, i]], 'white', width=r*10)
             pointx, pointy = pose_data[i]

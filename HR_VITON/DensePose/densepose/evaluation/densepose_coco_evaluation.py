@@ -5,6 +5,8 @@
 # LICENSE file in the root directory of this source tree.
 # This is a modified version of cocoeval.py where we also have the densepose evaluation.
 
+import math
+
 __author__ = "tsungyi"
 
 import copy
@@ -867,7 +869,7 @@ class DensePoseCocoEval(object):
                             new_iou = ious[dind, gind]
                         if new_iou < iou:
                             continue
-                        if new_iou == 0.0:
+                        if math.isclose(new_iou, 0.0, rel_tol=1e-09, abs_tol=0.0):
                             continue
                         # if match successful and best so far, store appropriately
                         iou = new_iou

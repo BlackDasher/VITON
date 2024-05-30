@@ -7,6 +7,7 @@ from PIL import Image, ImageDraw
 import os.path as osp
 import numpy as np
 import json
+import math
 
 
 class CPDatasetTest(data.Dataset):
@@ -85,7 +86,7 @@ class CPDatasetTest(data.Dataset):
             pointx, pointy = pose_data[i]
             agnostic_draw.ellipse((pointx-r*5, pointy-r*6, pointx+r*5, pointy+r*6), 'gray', 'gray')
         for i in [3, 4, 6, 7]:
-            if (pose_data[i-1, 0] == 0.0 and pose_data[i-1, 1] == 0.0) or (pose_data[i, 0] == 0.0 and pose_data[i, 1] == 0.0):
+            if (math.isclose(pose_data[i-1, 0], 0.0, rel_tol=1e-09, abs_tol=0.0) and math.isclose(pose_data[i-1, 1], 0.0, rel_tol=1e-09, abs_tol=0.0)) or (math.isclose(pose_data[i, 0], 0.0, rel_tol=1e-09, abs_tol=0.0) and math.isclose(pose_data[i, 1], 0.0, rel_tol=1e-09, abs_tol=0.0)):
                 continue
             agnostic_draw.line([tuple(pose_data[j]) for j in [i - 1, i]], 'gray', width=r*10)
             pointx, pointy = pose_data[i]
@@ -97,7 +98,7 @@ class CPDatasetTest(data.Dataset):
             pointx, pointy = pose_data[pose_ids[0]]
             mask_arm_draw.ellipse((pointx-r*5, pointy-r*6, pointx+r*5, pointy+r*6), 'black', 'black')
             for i in pose_ids[1:]:
-                if (pose_data[i-1, 0] == 0.0 and pose_data[i-1, 1] == 0.0) or (pose_data[i, 0] == 0.0 and pose_data[i, 1] == 0.0):
+                if (math.isclose(pose_data[i-1, 0], 0.0, rel_tol=1e-09, abs_tol=0.0) and math.isclose(pose_data[i-1, 1], 0.0, rel_tol=1e-09, abs_tol=0.0)) or (math.isclose(pose_data[i, 0], 0.0, rel_tol=1e-09, abs_tol=0.0) and math.isclose(pose_data[i, 1], 0.0, rel_tol=1e-09, abs_tol=0.0)):
                     continue
                 mask_arm_draw.line([tuple(pose_data[j]) for j in [i - 1, i]], 'black', width=r*10)
                 pointx, pointy = pose_data[i]
